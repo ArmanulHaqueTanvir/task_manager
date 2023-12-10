@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:task_manager/controller/task_controller.dart';
 import 'package:task_manager/model/task_model.dart';
 import 'package:task_manager/pages/add_task_page.dart';
+import 'package:task_manager/utils/dimentions.dart';
 import 'package:task_manager/widgets/task_bar.dart';
 import 'package:task_manager/widgets/titleNsubtitle.dart';
 
@@ -20,13 +21,15 @@ class TodayTaskPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
-        height: 50,
-        width: 50,
+        height: Dimention.height30 * 2,
+        width: Dimention.height30 * 2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(90),
         ),
         child: FloatingActionButton(
           backgroundColor: const Color(0xFF6b30e0),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50))),
           child: const Icon(
             Icons.add,
             color: Colors.white,
@@ -54,19 +57,19 @@ class TodayTaskPage extends StatelessWidget {
               const Gap(10),
               _taskController.taskList != null
                   ? SizedBox(
-                      height: 300,
+                      height: Dimention.height30 * 10,
                       child: Obx(
                         () {
                           return ListView.builder(
                             itemCount: _taskController.taskList.length,
                             itemBuilder: (_, index) {
                               Task task = _taskController.taskList[index];
-                              DateTime upcomingFixedTime =
-                                  DateTime.parse(task.initDate!);
-                              Duration differenceBetween =
-                                  upcomingFixedTime.difference(_selectedDate);
-                              String differenceString =
-                                  formatDuration(differenceBetween);
+                              // DateTime upcomingFixedTime =
+                              //     DateTime.parse(task.upcomingTime!);
+                              // Duration differenceBetween =
+                              //     upcomingFixedTime.difference(_selectedDate);
+                              // String differenceString =
+                              //     formatDuration(differenceBetween);
                               return GestureDetector(
                                 onTap: () {
                                   _taskController.deleteTasks(
@@ -79,7 +82,9 @@ class TodayTaskPage extends StatelessWidget {
 
                                   date: task.selectedDate.toString(),
                                   title: task.title.toString(),
-                                  subtitle: differenceString.toString(),
+                                  subtitle: task.startTime.toString(),
+                                  // subtitle:
+                                  //     " ${differenceString.toString()} remainig",
                                   color: Colors.grey,
                                   time: task.startTime.toString(),
 
@@ -91,13 +96,26 @@ class TodayTaskPage extends StatelessWidget {
                         },
                       ),
                     )
-                  : Center(
-                      child: Container(
-                        height: 100,
-                        child: Image.asset('assets/empty_cart.png'),
-                      ),
+                  : Column(
+                      children: [
+                        Gap(Dimention.height10),
+                        Center(
+                          child: SizedBox(
+                            height: Dimention.height30 * 6,
+                            child: Image.asset('assets/images/empty_cart.png'),
+                          ),
+                        ),
+                        Gap(Dimention.height10),
+                        Text(
+                          "No Tasks Today",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: Dimention.font20,
+                          ),
+                        )
+                      ],
                     ),
-              const Gap(30),
+              Gap(Dimention.height30),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -137,11 +155,25 @@ class TodayTaskPage extends StatelessWidget {
                             },
                           ),
                         )
-                      : Center(
-                          child: Container(
-                            height: 100,
-                            child: Image.asset('assets/empty_box.png'),
-                          ),
+                      : Column(
+                          children: [
+                            Gap(Dimention.height10),
+                            Center(
+                              child: SizedBox(
+                                height: Dimention.height30 * 6,
+                                child:
+                                    Image.asset('assets/images/empty_cart.png'),
+                              ),
+                            ),
+                            Gap(Dimention.height10),
+                            const Text(
+                              "You have no completed tasks yet",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 20,
+                              ),
+                            )
+                          ],
                         ),
                 ],
               ),

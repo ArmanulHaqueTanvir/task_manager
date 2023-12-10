@@ -1,6 +1,6 @@
 class Task {
   int? id, isCompleted, remind;
-  String? title, description, startTime, selectedDate, initDate;
+  String? title, description, startTime, selectedDate, upcomingDate;
 
   Task({
     this.id,
@@ -10,7 +10,7 @@ class Task {
     this.isCompleted,
     this.remind,
     this.selectedDate,
-    this.initDate,
+    this.upcomingDate,
   });
 
   Task.fromJSON(Map<String, dynamic> json) {
@@ -21,7 +21,7 @@ class Task {
     isCompleted = json["isCompleted"];
     remind = json["remind"];
     selectedDate = json["selectedDate"];
-    initDate = json["initDate"];
+    upcomingDate = json["upcomingDate"];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,8 +34,7 @@ class Task {
     data['isCompleted'] = isCompleted;
     data['remind'] = remind;
     data['selectedDate'] = selectedDate;
-    data['initDate'] = initDate;
-
+    data['upcomingDate'] = upcomingDate;
     return data;
   }
 }

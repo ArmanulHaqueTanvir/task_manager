@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/utils/dimentions.dart';
 
 class myButton extends StatelessWidget {
   final double size;
@@ -15,8 +16,9 @@ class myButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 5, right: 5),
-      padding: const EdgeInsets.all(5),
+      margin: EdgeInsets.only(
+          left: Dimention.height10 / 2, right: Dimention.height10 / 2),
+      padding: EdgeInsets.all(Dimention.height10 / 2),
       width: size,
       decoration: BoxDecoration(
         color: bgcolor,
@@ -26,7 +28,7 @@ class myButton extends StatelessWidget {
         text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 20,
+          fontSize: Dimention.font20 - 2,
           color: fontColor,
           fontWeight: FontWeight.w400,
         ),

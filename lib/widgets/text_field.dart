@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:task_manager/utils/dimentions.dart';
 
 // ignore: must_be_immutable
 class TextFieldWithTitle extends StatelessWidget {
@@ -21,8 +22,8 @@ class TextFieldWithTitle extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 20,
+          style: TextStyle(
+            fontSize: Dimention.font20,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -47,12 +48,12 @@ class TextFieldWithTitle extends StatelessWidget {
                       suffixIcon: widget,
                       border: InputBorder.none,
                       hintText: hint,
-                      hintStyle: const TextStyle(
+                      hintStyle: TextStyle(
                         color: Colors.grey,
-                        fontSize: 16,
+                        fontSize: Dimention.font20 - 4,
                       )),
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: Dimention.font20 - 2,
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),

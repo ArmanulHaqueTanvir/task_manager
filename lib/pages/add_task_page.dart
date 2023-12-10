@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manager/controller/task_controller.dart';
 import 'package:task_manager/model/task_model.dart';
+import 'package:task_manager/utils/dimentions.dart';
 import 'package:task_manager/widgets/my_button.dart';
 import 'package:task_manager/widgets/text_field.dart';
 
@@ -19,15 +20,18 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
+  // ALl controller variables here....
   final TaskController _taskController = Get.put(TaskController());
-  DateTime _selectedDate = DateTime.now();
-  String _endTime = "9:21";
-  String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
-  String initDate = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+
+  // Date time all variables
+  DateTime _selectedDate = DateTime.now();
+  // String _endTime = "9:21";
+  var _startTime = DateFormat.jm().format(DateTime.timestamp());
+  DateTime upcomingDateFormate = DateTime.now();
 
   List<int> remiderMeList = <int>[
     5,
@@ -51,6 +55,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f7),
       appBar: AppBar(
+        toolbarHeight: Dimention.height20 * 2,
         elevation: 0,
         scrolledUnderElevation: 0,
         backgroundColor: const Color(0xfff2f2f7),
@@ -115,7 +120,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   ),
                 ],
               ),
-              const Gap(20),
+              Gap(Dimention.height20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -123,7 +128,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     width: MediaQuery.of(context).size.width * 0.46,
                     child: TextFieldWithTitle(
                       title: "Remind Me",
-                      hint: "$_selectedRemind minutes before",
+                      hint: "$_selectedRemind min before",
                       widget: DropdownButton(
                         onChanged: (value) {
                           setState(() {
@@ -171,35 +176,35 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   ),
                 ],
               ),
-              const Gap(20),
-              const Column(
+              Gap(Dimention.height20),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Repeat",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: Dimention.font20,
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Gap(10),
+                  Gap(Dimention.height10),
                   Row(
                     children: [
                       myButton(
-                        size: 100,
-                        bgcolor: Color(0xff6b30e0),
+                        size: Dimention.width30 * 3,
+                        bgcolor: const Color(0xff6b30e0),
                         fontColor: Colors.white,
                         text: "Once",
                       ),
                       myButton(
-                        size: 100,
+                        size: Dimention.width30 * 3,
                         bgcolor: Colors.white,
                         fontColor: Colors.black,
                         text: "Daily",
                       ),
                       myButton(
-                        size: 100,
+                        size: Dimention.width30 * 3,
                         bgcolor: Colors.white,
                         fontColor: Colors.black,
                         text: "Custom",
@@ -208,29 +213,29 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   )
                 ],
               ),
-              const Gap(10),
-              const Column(
+              Gap(Dimention.height10),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Priority",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: Dimention.font20,
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Gap(7),
+                  Gap(Dimention.height10),
                   Row(
                     children: [
                       myButton(
-                        size: 100,
-                        bgcolor: Color(0xff6b30e0),
+                        size: Dimention.width30 * 3,
+                        bgcolor: const Color(0xff6b30e0),
                         fontColor: Colors.white,
                         text: "Normal",
                       ),
                       myButton(
-                        size: 100,
+                        size: Dimention.width30 * 3,
                         bgcolor: Colors.white,
                         fontColor: Colors.black,
                         text: "High",
@@ -239,7 +244,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   )
                 ],
               ),
-              const Gap(50),
+              Gap(Dimention.height30 + Dimention.height20),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -252,9 +257,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       });
                       // _taskController.addTask();
                     },
-                    child: const myButton(
-                      size: 150,
-                      bgcolor: Color(0xff6b30e0),
+                    child: myButton(
+                      size: Dimention.height30 * 5,
+                      bgcolor: const Color(0xff6b30e0),
                       fontColor: Colors.white,
                       text: "Save",
                     ),
@@ -263,9 +268,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onTap: () {
                       Get.back();
                     },
-                    child: const myButton(
-                      size: 150,
-                      fontColor: Color(0xff6b30e0),
+                    child: myButton(
+                      size: Dimention.height30 * 5,
+                      fontColor: const Color(0xff6b30e0),
                       bgcolor: Colors.white,
                       text: "Cancel",
                     ),
@@ -311,11 +316,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
       task: Task(
         title: titleController.text,
         description: descriptionController.text,
-        selectedDate: DateFormat('dd-MMM-yyyy').format(DateTime.now()),
+        selectedDate: DateFormat('dd-MMM-yyyy').format(_selectedDate),
         startTime: _startTime,
         remind: _selectedRemind,
         isCompleted: 0,
-        initDate: initDate,
+        upcomingDate: DateFormat('yyyy-MM-dd HH:mm')
+            .format(DateTime.parse(_selectedDate.toString())),
       ),
     );
   }
@@ -329,29 +335,34 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
     if (_pickerDate != null) {
       setState(() {
-        _selectedDate = _pickerDate;
+        _selectedDate = _pickerDate!;
       });
+      _pickerDate = DateTime.parse(upcomingDateFormate.toString());
     } else {
       const Text("MM/dd/yyyy");
     }
   }
 
   _getTimeFromUser({required bool isStartTime}) async {
-    var pickedTime = await _showTimePicker();
-    // ignore: no_leading_underscores_for_local_identifiers
-    dynamic _formatedTime = await pickedTime;
-
-    if (pickedTime == null) {
-    } else if (isStartTime == true) {
-      setState(() {
-        _startTime = _formatedTime;
-      });
+    try {
+      String pickedTime = await _showTimePicker();
+      // ignore: no_leading_underscores_for_local_identifiers
+      String _formatedTime = await pickedTime;
+      if (pickedTime == null) {
+      } else if (isStartTime == true) {
+        setState(() {
+          _startTime = _formatedTime.toString();
+        });
+        _formatedTime = upcomingDateFormate.toString();
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   _showTimePicker() async {
     return await showTimePicker(
-      initialEntryMode: TimePickerEntryMode.input,
+      initialEntryMode: TimePickerEntryMode.dial,
       context: context,
       initialTime: TimeOfDay.now(),
     );

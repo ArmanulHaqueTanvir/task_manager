@@ -12,6 +12,7 @@ class DBHelper {
   static String startTime = "startTime";
   static String remind = "remind";
   static String isCompleted = "isCompleted";
+  static String upcomingDate = "upcomingDate";
 
   static Future<void> initDb() async {
     if (_db != null) {
@@ -24,19 +25,6 @@ class DBHelper {
         path,
         version: _version,
         onCreate: (db, version) {
-          print("creating a new one");
-
-          // return db.execute('''
-          //       CREATE TABLE $_tableName(
-          //         $id INTEGER PRIMARY KEY,
-          //         $name STRING,
-          //         $description TEXT,
-          //         $startTime TEXT,
-          //         $isCompleted INTEGER NOT NULL,
-          //         $remind INTEGER NOT NULL,
-          //         $selectedDate TEXT NOT NULL,
-          //       )
-          //         ''');
           return db.execute(
             "CREATE TABLE $_tableName("
             "$id INTEGER PRIMARY KEY, "
@@ -45,13 +33,21 @@ class DBHelper {
             "$startTime TEXT, "
             "$isCompleted INTEGER NOT NULL, "
             "$remind INTEGER NOT NULL ,"
-            "$selectedDate TEXT NOT NULL)",
+            "$selectedDate TEXT NOT NULL ,"
+            "ALTER TABLE $_tableName ADD COLUMN $upcomingDate TEXT)",
           );
         },
+        // "$selectedDate TEXT NOT NULL ,"
       );
+      // addColumnToTable(_db!);
     } catch (e) {
       print("$e error from database: ");
     }
+  }
+
+  static addColumnToTable(Database db) async {
+    // Execute SQL query to add a new column to your table
+    // await db.execute('ALTER TABLE $_tableName ADD COLUMN $upcomingDate TEXT' args[]);
   }
 
   static Future<int?> insert(Task task) async {

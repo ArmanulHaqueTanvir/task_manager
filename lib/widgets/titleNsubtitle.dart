@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/utils/dimentions.dart';
 
 class TitleNSubtitle extends StatelessWidget {
   final String title, subtitle;
@@ -15,15 +16,15 @@ class TitleNSubtitle extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 20,
+          style: TextStyle(
+            fontSize: Dimention.font20,
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
           subtitle,
-          style: const TextStyle(
-            fontSize: 17,
+          style: TextStyle(
+            fontSize: Dimention.font20 - 4,
             color: Colors.grey,
           ),
         ),
