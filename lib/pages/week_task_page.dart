@@ -7,11 +7,12 @@ import 'package:task_manager/model/task_model.dart';
 import 'package:task_manager/pages/add_task_page.dart';
 import 'package:task_manager/utils/dimentions.dart';
 import 'package:task_manager/widgets/task_bar.dart';
-import 'package:task_manager/widgets/week_head.dart';
 
 class WeekTaskPage extends StatelessWidget {
+  //
   final DateTime _selectedDate = DateTime.now();
   final _taskController = Get.put(TaskController());
+
   WeekTaskPage({super.key});
 
   List days = [
