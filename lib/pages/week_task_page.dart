@@ -7,6 +7,7 @@ import 'package:task_manager/model/task_model.dart';
 import 'package:task_manager/pages/add_task_page.dart';
 import 'package:task_manager/utils/dimentions.dart';
 import 'package:task_manager/widgets/task_bar.dart';
+import 'package:task_manager/widgets/weekChangeBtn.dart';
 
 class WeekTaskPage extends StatelessWidget {
   //
@@ -27,16 +28,29 @@ class WeekTaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTimeRange range = DateTimeRange(
-      start: DateTime(2023, 12, 09),
-      end: DateTime(2023, 12, 15),
-    );
+    //
+
+    DateTime now = DateTime.now();
+
+    DateTime startOfWeek = DateTime.utc(now.year, now.month, now.day);
+    int daysUntilSaturday = DateTime.saturday - startOfWeek.weekday;
+    startOfWeek = startOfWeek.add(Duration(days: daysUntilSaturday));
+
+    DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
+
+    DateTimeRange range = DateTimeRange(start: startOfWeek, end: endOfWeek);
 
     final startDate = range.start;
     final endDate = range.end;
 
-    var start = " ${startDate.year}-${startDate.month}-${startDate.day}";
-    String end = " ${endDate.year}-${endDate.month}-${endDate.day}";
+// ---------------------
+
+    List<Task> filteredTasks = _taskController.taskList
+        .where((task) =>
+            DateTime.parse(task.upcomingDate!).isAfter(startDate) &&
+            DateTime.parse(task.upcomingDate!).isBefore(endDate))
+        .toList();
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         shape: const RoundedRectangleBorder(
@@ -62,16 +76,13 @@ class WeekTaskPage extends StatelessWidget {
             // Gap(Dimention.height10 /),
 
             // Weak custom head
-            // WeekHead(),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  size: Dimention.height20,
-                  color: Colors.grey[800],
+                weekChangeBtn(
+                  icon: Icons.arrow_back_ios,
+                  onTap: () {},
                 ),
                 Column(
                   children: [
@@ -93,10 +104,9 @@ class WeekTaskPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: Dimention.height20,
-                  color: Colors.grey[800],
+                weekChangeBtn(
+                  icon: Icons.arrow_forward_ios,
+                  onTap: () {},
                 ),
               ],
             ),
@@ -109,77 +119,65 @@ class WeekTaskPage extends StatelessWidget {
                 itemBuilder: (_, index) {
                   Task task = _taskController.taskList[index];
 
-                  var _dateFormate = DateFormat('EEEE')
-                      .format(DateTime.parse(task.upcomingDate!));
+                  // var _dayFormate = DateFormat('EEEE')
+                  //     .format(DateTime.parse(task.upcomingDate!));
+
                   var date = DateFormat('EEEE, dd-MMM-yyyy')
                       .format(DateTime.parse(task.upcomingDate!));
-                  // Suppose
-                  // if (task.upcommingDate == selectedDate){
-                  // return YOUR TASK WIDGET})
-                  // add your selected day name & there all task in task list, design as your need.
 
-                  // return Container(
-                  //   height: 300,
-                  //   child: DemoTaskWidget(
-                  //     dayName: date,
-                  //     taskList: _taskController.taskList,
-                  //   ),
-                  // );
-
-                  for (var day in days) {
-                    print({'Date_Format': task.selectedDate});
-                    print({'Day': day});
-                    if (day == _dateFormate) {
-                      return GestureDetector(
-                        onTap: () {
-                          //
-                        },
-                        child: Column(
-                          children: [
-                            Gap(Dimention.height10),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 20,
-                                  width: 5,
-                                  color: Colors.cyan,
+                  if (DateTime.parse(task.upcomingDate!).isAfter(startDate) &&
+                      DateTime.parse(task.upcomingDate!).isBefore(endDate)) {
+                    return GestureDetector(
+                      onTap: () {
+                        //
+                      },
+                      child: Column(
+                        children: [
+                          Gap(Dimention.height10),
+                          Row(
+                            children: [
+                              Container(
+                                height: 20,
+                                width: 5,
+                                color: Colors.cyan,
+                              ),
+                              Gap(Dimention.height10 / 2 + 3),
+                              Text(
+                                date,
+                                style: TextStyle(
+                                  fontSize: Dimention.font20 - 4,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Gap(Dimention.height10 / 2 + 3),
-                                Text(
-                                  _dateFormate,
-                                  // DateFormat('EEEE, dd-MMM-yyyy').format(
-                                  //     DateTime.parse(task.upcomingDate!)),
-                                  style: TextStyle(
-                                    fontSize: Dimention.font20 - 4,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Gap(Dimention.height10),
-                            TaskBar(
-                              onChanged: (p0) {
-                                _taskController.isCompleted = true;
-                              },
-                              date: task.selectedDate.toString(),
-                              title: task.title.toString(),
-                              subtitle: task.startTime.toString(),
-                              color: Colors.grey,
-                              time: task.startTime.toString(),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else if (day != _dateFormate) {
-                      //
-                      TaskBar(
-                        title: "No Task Today",
-                        subtitle: '',
-                        time: '',
-                        date: '',
-                      );
-                    }
+                              ),
+                            ],
+                          ),
+                          TaskBar(
+                            onChanged: (p0) {
+                              _taskController.isCompleted = true;
+                            },
+                            date: task.selectedDate.toString(),
+                            title: task.title.toString(),
+                            subtitle: task.startTime.toString(),
+                            color: Colors.grey,
+                            time: task.startTime.toString(),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    TaskBar(
+                      onChanged: (p0) {
+                        _taskController.isCompleted = true;
+                      },
+                      date: task.selectedDate.toString(),
+                      title: "No Tasks Available",
+                      subtitle: task.startTime.toString(),
+                      color: Colors.grey,
+                      time: task.startTime.toString(),
+                    );
                   }
+
+                  return Container();
                 },
               ),
             ),

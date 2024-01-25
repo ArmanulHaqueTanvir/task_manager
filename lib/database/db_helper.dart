@@ -13,6 +13,7 @@ class DBHelper {
   static String remind = "remind";
   static String isCompleted = "isCompleted";
   static String upcomingDate = "upcomingDate";
+  static String priority = "priority";
 
   static Future<void> initDb() async {
     if (_db != null) {
@@ -34,14 +35,15 @@ class DBHelper {
             "$isCompleted INTEGER NOT NULL, "
             "$remind INTEGER NOT NULL ,"
             "$selectedDate TEXT NOT NULL ,"
-            "ALTER TABLE $_tableName ADD COLUMN $upcomingDate TEXT)",
+            "$upcomingDate TEXT, "
+            "$priority TEXT)",
           );
         },
         // "$selectedDate TEXT NOT NULL ,"
       );
       // addColumnToTable(_db!);
     } catch (e) {
-      print("$e error from database: ");
+      print(" error from database: $e");
     }
   }
 

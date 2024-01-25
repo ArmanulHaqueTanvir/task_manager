@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     TodayTaskPage(),
                     WeekTaskPage(),
-                    const MonthTaskPage(),
+                    MonthTaskPage(),
                   ],
                 ),
               )

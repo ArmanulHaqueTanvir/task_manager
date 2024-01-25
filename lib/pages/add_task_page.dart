@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
   // String _endTime = "9:21";
   var _startTime = DateFormat.jm().format(DateTime.timestamp());
   DateTime upcomingDateFormate = DateTime.now();
+
+  bool priority = false;
 
   List<int> remiderMeList = <int>[
     5,
@@ -228,17 +231,27 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   Gap(Dimention.height10),
                   Row(
                     children: [
-                      myButton(
-                        size: Dimention.width30 * 3,
-                        bgcolor: const Color(0xff6b30e0),
-                        fontColor: Colors.white,
-                        text: "Normal",
+                      GestureDetector(
+                        onTap: () {},
+                        child: myButton(
+                          size: Dimention.width30 * 3,
+                          bgcolor: const Color(0xff6b30e0),
+                          fontColor: Colors.white,
+                          text: "Normal",
+                        ),
                       ),
-                      myButton(
-                        size: Dimention.width30 * 3,
-                        bgcolor: Colors.white,
-                        fontColor: Colors.black,
-                        text: "High",
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            priority = true;
+                          });
+                        },
+                        child: myButton(
+                          size: Dimention.width30 * 3,
+                          bgcolor: Colors.white,
+                          fontColor: Colors.black,
+                          text: "High",
+                        ),
                       ),
                     ],
                   )
@@ -322,6 +335,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         isCompleted: 0,
         upcomingDate: DateFormat('yyyy-MM-dd HH:mm')
             .format(DateTime.parse(_selectedDate.toString())),
+        // priority: priority,
       ),
     );
   }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:task_manager/controller/task_controller.dart';
 import 'package:task_manager/utils/dimentions.dart';
 
 class TaskBar extends StatelessWidget {
@@ -30,7 +31,7 @@ class TaskBar extends StatelessWidget {
         left: Dimention.height10 / 1.5,
         right: Dimention.height10 / 1.5,
         top: Dimention.height10 / 2,
-        bottom: Dimention.height10 / 2,
+        bottom: Dimention.height10,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -91,7 +92,11 @@ class TaskBar extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
+          Container(
+            width: 3,
+            color: Colors.red,
+          ),
         ],
       ),
     );
